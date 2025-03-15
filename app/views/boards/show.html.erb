@@ -1,81 +1,31 @@
-<div>
+<h1><%= @board.name %></h1>
+
+<h2>Posts</h2>
+<ul>
+  <% @posts.each do |post| %>
+    <li><%= post.title %></li>
+  <% end %>
+</ul>
+
+<h2>Add a new post</h2>
+
+<%= form_with model: @post, url: posts_path, method: :post, local: true do |f| %>
   <div>
-    <h1>
-      Board #<%= @the_board.id %> details
-    </h1>
-
-    <div>
-      <div>
-        <a href="/boards">
-          Go back
-        </a>
-      </div>
-
-      <div>
-        <a href="/delete_board/<%= @the_board.id %>">
-          Delete board
-        </a>
-      </div>
-    </div>
-
-    <dl>
-      <dt>
-        Name
-      </dt>
-      <dd>
-        <%= @the_board.name %>
-      </dd>
-
-      <dt>
-        Created at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_board.created_at) %> ago
-      </dd>
-
-      <dt>
-        Updated at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_board.updated_at) %> ago
-      </dd>
-    </dl>
+    <%= f.label :title, "Title" %>
+    <%= f.text_field :title %>
   </div>
-</div>
 
-<hr>
-
-
-<div>
   <div>
-    <h2>
-      Edit board
-    </h2>
-
-    <form action="/modify_board/<%= @the_board.id %>"  method="post" >
-      <div>
-        
-
-        <label for="title">
-          Title
-        </label>
-
-        <input type="text" id="title" name="query_title" value="<%= @the_board.title %>">
-      </div>
-      <div>
-        <label for="body">
-          Body
-        </label>
-
-        <input type="text" id="body" name="query_body" value="<%= @the_board.body %>">
-      </div>
-
-
-      <button>
-        Add post
-      </button>
-    </form>
+    <%= f.label :body, "Body" %>
+    <%= f.text_area :body %>
   </div>
-</div>
 
-<hr>
+  <div>
+    <%= f.label :expires_on, "Expires on" %>
+    <%= f.date_field :expires_on %>
+  </div>
+
+  <%= f.hidden_field :board_id, value: @board.id %>
+
+  <button type="submit">Add post</button>
+<% end %>
