@@ -1,31 +1,87 @@
-<h1><%= @board.name %></h1>
+<div>
+  <div>
+    <h1>
+      <%= @the_board.name %>
+    </h1>
+  </div>
+</div>
 
-<h2>Posts</h2>
-<ul>
-  <% @posts.each do |post| %>
-    <li><%= post.title %></li>
+<hr>
+
+<h2>
+  Add a new post
+</h2>
+
+<form action="/insert_post" method="post">
+  <div>
+    <label for="title_box">
+      Title
+    </label>
+
+    <input type="text" id="title_box" name="query_title">
+  </div>
+
+  <div>
+    <label for="body_box">
+      Body
+    </label>
+
+    <textarea id="body_box" name="query_body" rows="3"></textarea>
+  </div>
+
+  <div>
+    <label for="expires_on_box">
+      Expires on
+    </label>
+
+    <input type="date" id="expires_on_box" name="query_expires_on">
+  </div>
+
+  <input type="hidden" id="board_id_box" name="query_board_id" value="<%= @the_board.id %>">
+
+  <button>
+    Add post
+  </button>
+</form>
+
+<hr>
+
+<h2>Active posts</h2>
+
+<table border="1">
+  <tr>
+    <th>Title</th>
+    <th>Body</th>
+    <th>Posted on</th>
+    <th>Expires on</th>
+  </tr>
+
+  <% @active_posts.each do |a_post| %>
+    <tr>
+      <td><%= a_post.title %></td>
+      <td><%= a_post.body %></td>
+      <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
+      <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
+    </tr>
   <% end %>
-</ul>
+</table>
 
-<h2>Add a new post</h2>
+<h2>Expired posts</h2>
 
-<%= form_with model: @post, url: posts_path, method: :post, local: true do |f| %>
-  <div>
-    <%= f.label :title, "Title" %>
-    <%= f.text_field :title %>
-  </div>
+<table border="1">
+  <tr>
+    <th>Title</th>
+    <th>Body</th>
+    <th>Posted on</th>
+    <th>Expired on</th>
+  </tr>
 
-  <div>
-    <%= f.label :body, "Body" %>
-    <%= f.text_area :body %>
-  </div>
-
-  <div>
-    <%= f.label :expires_on, "Expires on" %>
-    <%= f.date_field :expires_on %>
-  </div>
-
-  <%= f.hidden_field :board_id, value: @board.id %>
-
-  <button type="submit">Add post</button>
-<% end %>
+  <% @expired_posts.each do |a_post| %>
+    <tr>
+      <td><%= a_post.title %></td>
+      <td><%= a_post.body %></td>
+      <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
+      <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
+    </tr>
+  <% end %>
+</table>

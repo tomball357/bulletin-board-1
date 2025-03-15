@@ -2,11 +2,11 @@
 #
 # Table name: boards
 #
-#  id         :bigint           not null, primary key
+#  id         :integer          not null, primary key
 #  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 class Board < ApplicationRecord
-  has_many :posts, dependent: :destroy
+  validates(:name, presence: true, uniqueness: true)
 end
